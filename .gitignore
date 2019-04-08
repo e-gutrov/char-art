@@ -1,0 +1,6 @@
+*.png
+*.txt
+.idea
+venv
+chars_pics
+.DS_Store
