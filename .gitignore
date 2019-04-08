@@ -1,6 +1,6 @@
 *.png
 *.txt
 .idea
-venv
-chars_pics
+/venv/
+/chars_pics/
 .DS_Store
