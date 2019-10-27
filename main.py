@@ -17,8 +17,9 @@ def get_char(x, chars):
     return chars[int(len(chars) / 256 * x)][0]
 
 
-def scale(a, need_size):
-    need_size = (need_size[0], round(need_size[1] * 1.5))  # chars' width is less than height
+def scale(a, need_size, man):
+    if not man:
+        need_size = (need_size[0], round(need_size[1] * 1.5))  # chars' width is less than height
     scale_i = a.shape[0] / need_size[0]
     scale_j = a.shape[1] / need_size[1]
     b = np.zeros(need_size).astype(np.uint8)
@@ -43,20 +44,22 @@ def main():
         'Image size is {0}x{1} pts.\n'
         'Enter "dec x" to decrease size by x times\n'
         'Enter "man w h" to get image with size w h (in chars): '.format(
-            wb_cols.shape[0], wb_cols.shape[1]
+            wb_cols.shape[1], wb_cols.shape[0]
         )
     )
     if operation[:3] == 'dec':
+        man = False
         times = float(operation.split()[1])
         sz = tuple((int(wb_cols.shape[0] / times), int(wb_cols.shape[1] / times)))
     else:
+        man = True
         sz = tuple(map(int, operation.split()[2:0:-1]))
 
-    with open('result.txt', 'w') as f:
-        char_picture = scale(wb_cols, sz)
-        for i in range(char_picture.shape[0]):
-            for j in range(char_picture.shape[1]):
-                print(get_char(char_picture[i][j], chars), end='', file=f)
+    with open(input('Enter path to output file: '), 'w') as f:
+        scaled_picture = scale(wb_cols, sz, man)
+        for i in range(scaled_picture.shape[0]):
+            for j in range(scaled_picture.shape[1]):
+                print(get_char(scaled_picture[i][j], chars), end='', file=f)
             print(file=f)
 
 
