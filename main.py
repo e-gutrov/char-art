@@ -56,6 +56,12 @@ def main():
         sz = tuple(map(int, operation.split()[2:0:-1]))
 
     with open(input('Enter path to output file: '), 'w') as f:
+        color = input('Which font do you use? (black/white): ')
+        if color == 'black':
+            chars.reverse()
+        elif color != 'white':
+            print('Unrecognized color. Using white as default.')
+
         scaled_picture = scale(wb_cols, sz, man)
         for i in range(scaled_picture.shape[0]):
             for j in range(scaled_picture.shape[1]):
